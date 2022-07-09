@@ -2,6 +2,7 @@ package pages.homepage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -26,36 +27,39 @@ class HomePageTest {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         homePage = new HomePage(driver);
-        driver.get("https://www.21vek.by/");
     }
     @Test
     public void authorizationTest() {
+        driver.get("https://www.21vek.by/");
         homePage.openForm()
                 .inputLogin("maza2009i@mail.ru")
                 .inputPassword("UserP@ssword")
                 .submit();
-
     }
     @Test
     public void searchTest() {
+        driver.get("https://www.21vek.by/");
         homePage.search("Смартфон Apple iPhone 11 64GB / MHDA3 (черный)");
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.invisibilityOf(И))
-        WebElement element = driver.findElement(By.xpath("//a[@class='result__link j-ga_track']"));
-        assertTrue(element.isDisplayed());
+        assertTrue(driver.findElement(By
+                .xpath("//div[@id=\"content\"]/div[1]/h1[text()='Результаты поиска']")).isDisplayed());
     }
 
-//    @Test
-//    public void documentationTest (){
-//
-//        assertTrue();
-//    }
-//
-//    @Test
-//    public void basketTest (){
-//
-//        assertTrue();
-//    }
+    @Test
+    public void documentationTest (){
+        driver.get("https://www.21vek.by/");
+        homePage.openPublicOffer();
+        assertTrue(driver.findElement(By.xpath("//h1[text()='Договор публичной оферты']")).isDisplayed());
+    }
+
+    @Test
+    public void changeCityTest (){
+        driver.get("https://www.21vek.by/");
+        driver.findElement(By.xpath("//span[text()='г. Минск']")).click();
+        driver.findElement(By.xpath("//input[@label='Населенный пункт']")).click();
+        driver.findElement(By.xpath("//div[text()='Гродно']")).click();
+        driver.findElement(By.xpath("//input[@label='Населенный пункт']")).submit();
+        assertTrue(driver.findElement(By.xpath("//span[text()='г. Гродно']")).isDisplayed());
+    }
 
     @AfterAll
     public static void finish (){

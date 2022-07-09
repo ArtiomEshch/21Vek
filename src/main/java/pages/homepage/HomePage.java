@@ -35,13 +35,12 @@ public class HomePage {
         return this;
     }
 
-    public HomePage search (String request){
+    public void search (String request){
         driver.findElement(By.id("catalogSearch"))
                 .sendKeys(request);
         WebDriverWait wait = new WebDriverWait(driver,30);
         wait.until(ExpectedConditions.elementToBeClickable((By.xpath("//button[@class='Search_searchBtn__3fSOy']"))))
                 .click();
-        return this;
     }
 
     public HomePage openBasket (){
@@ -58,4 +57,9 @@ public class HomePage {
         driver.findElement(By.xpath(PASSWORD_FIELD)).submit();
         return this;
     }
+
+    public void openPublicOffer (){
+        driver.findElement(By.xpath("//a[@href='/services/public_offer.html']")).click();
+    }
+
 }

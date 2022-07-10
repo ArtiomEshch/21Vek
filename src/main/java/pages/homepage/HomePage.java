@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
 public class HomePage {
     private final String PAGE_URL = "https://www.21vek.by/";
     private final String ACCOUNT_BTN = "//span[@class='userToolsText']";
@@ -38,7 +40,7 @@ public class HomePage {
     public void search (String request){
         driver.findElement(By.id("catalogSearch"))
                 .sendKeys(request);
-        WebDriverWait wait = new WebDriverWait(driver,30);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.elementToBeClickable((By.xpath("//button[@class='Search_searchBtn__3fSOy']"))))
                 .click();
     }
